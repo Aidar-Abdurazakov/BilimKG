@@ -1,0 +1,22 @@
+# Виртуальное окружение и секреты
+venv/
+.venv/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Базы и загруженные файлы
+db.sqlite3
+*.sqlite3
+media/
+staticfiles/
+
+# Системные и IDE
+.DS_Store
+__MACOSX/
+.idea/
+.vscode/
+.env.*
+!.env.example

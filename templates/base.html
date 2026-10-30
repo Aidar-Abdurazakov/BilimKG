@@ -1,0 +1,10 @@
+{% load i18n static %}{% get_current_language as LANG %}<!doctype html><html lang="{{ LANG }}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{% block title %}BilimKG{% endblock %}</title><link rel="stylesheet" href="{% static 'style.css' %}"></head><body>
+<nav><a class="brand" href="/">▣ Bilim<span>KG</span></a><div class="links">
+{% if user.is_authenticated %}<a href="/dashboard/">{% trans "Главная" %}</a>
+{% if role == 'student' %}<a href="/subjects/">{% trans "Предметы" %}</a><a href="/quizzes/">{% trans "Тесты" %}</a><a href="/assignments/">{% trans "Контрольные" %}</a><a href="/my-submissions/">{% trans "Мои оценки" %}</a>
+{% else %}{% if role == 'owner' %}<a href="/platform/">{% trans "Управление школами" %}</a>{% endif %}{% if role == 'admin' %}<a href="/school/">{% trans "Школа" %}</a>{% endif %}<a href="/subjects/">{% trans "Предметы" %}</a><a href="/content/">{% trans "Материалы" %}</a><a href="/teacher/submissions/">{% trans "Работы" %}</a><a href="/results/">{% trans "Успеваемость" %}</a>{% endif %}
+{% endif %}</div><div class="links">
+<form class="inline lang" method="post" action="{% url 'set_language' %}">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"><button name="language" value="ru" class="{% if LANG == 'ru' %}on{% endif %}">РУ</button><button name="language" value="ky" class="{% if LANG == 'ky' %}on{% endif %}">КЫ</button></form>
+{% if user.is_authenticated %}<span class="who">{{ user.get_full_name|default:user.username }}</span><form class="inline" method="post" action="/logout/">{% csrf_token %}<button class="linkbtn">{% trans "Выйти" %}</button></form>{% else %}<a class="btn small" href="/login/">{% trans "Войти" %}</a>{% endif %}</div></nav>
+<main class="wrap">{% for m in messages %}<p class="message {{ m.tags }}">{{ m }}</p>{% endfor %}{% block content %}{% endblock %}</main>
+<footer><b>BilimKG</b><span>{% trans "Образование, которое всегда под рукой." %}</span></footer></body></html>
